@@ -57,8 +57,8 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
     </div>
     </fieldset>
   `;
-  const drawing = createDrawingControls({ svgLayer, getBoard, state, onChange, downloadSvg: download, print });
-  const panels = { image: imagePanel, random: randomPanel, draw: drawing.panel };
+  const drawing = createDrawingControls({ svgLayer, getBoard, state, onChange, downloadSvg: download, print, paletteOptions: paletteSelect.innerHTML });
+  const panels = { random: randomPanel, draw: drawing.panel, image: imagePanel };
   const tabs = document.createElement('div');
   tabs.id = 'controlTabs';
   tabs.className = 'buttons';
@@ -76,6 +76,7 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
     ['randomSeedInput', 'seed', 'input', String],
     ['randomMotifSelect', 'motif', 'change', String],
     ['randomPaletteSelect', 'palette', 'change', String],
+    ['drawPaletteSelect', 'palette', 'change', String],
     ['paletteSelect', 'palette', 'change', String],
     ['tileSizeInput', 'tileSize', 'input', Number],
     ['randomContrastInput', 'contrast', 'input', Number],

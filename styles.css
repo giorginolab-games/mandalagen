@@ -245,9 +245,22 @@ button:hover {
 }
 
 .tab-panel:not([hidden]) { display: grid; gap: 16px; }
+#drawTabPanel:not([hidden]) { gap: 10px; }
+#drawTabPanel select { min-width: 0; width: 100%; }
+#drawTabPanel summary { cursor: pointer; font-size: 0.875rem; }
+#drawTabPanel details p { margin: 8px 0 0; }
+.draw-actions, #drawColors { gap: 8px; }
+.draw-actions button { padding: 8px 12px; }
 [hidden] { display: none !important; }
 #overlayCanvas, #svgLayer.drawing { touch-action: none; }
 #svgLayer.drawing { cursor: crosshair; user-select: none; }
+#drawColors button {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: var(--swatch-color);
+  border: 1px solid #777;
+}
 #drawColors button[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 2px; }
 button:disabled { opacity: 0.4; cursor: default; transform: none; box-shadow: none; }
 button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }

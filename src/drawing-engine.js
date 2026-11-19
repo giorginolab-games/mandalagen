@@ -3,26 +3,32 @@ import { getSymmetryConfig } from './symmetry-engine.js';
 import { buildFixedPalette } from './color-engine.js';
 
 // One history entry per gesture, regardless of how many hexagons it crosses.
-export function createDrawingControls({ svgLayer, getBoard, state, onChange, downloadSvg, print }) {
+export function createDrawingControls({ svgLayer, getBoard, state, onChange, downloadSvg, print, paletteOptions }) {
   const panel = document.createElement('div');
   panel.className = 'tab-panel';
   panel.id = 'drawTabPanel';
   panel.hidden = true;
   panel.innerHTML = `
-    <p>Choose a color, then click or drag across hexagons. Works with a mouse, pen, or touch. Erase paints white.</p>
     <label class="control"><span>Symmetry</span>
       <select id="drawSymmetry">${RANDOM_SYMMETRIES.map(s => `<option value="${s.value}" ${s.value === RANDOM_SYMMETRIES[0].value ? 'selected' : ''}>${s.label}</option>`).join('')}</select>
     </label>
-    <p>${SYMMETRY_GUIDE}</p>
-    <p>Symmetry repeats each new stroke about the board center. Axes are measured clockwise from horizontal. Cₙ gives n rotations; Dₙ adds n reflections. Existing colors stay unchanged.</p>
-    <div class="buttons" id="drawColors" aria-label="Drawing colors"></div>
-    <div class="buttons">
+    <details>
+      <summary>Drawing and symmetry help</summary>
+      <p>Pick a swatch and click or drag to paint. The white swatch erases.</p>
+      <p>Each stroke repeats around the board center. Axes are measured clockwise from horizontal. Cₙ gives n rotations and Dₙ adds n reflections.</p>
+      <p>${SYMMETRY_GUIDE}</p>
+    </details>
+    <div class="buttons draw-actions">
       <button type="button" id="drawUndo">Undo</button>
       <button type="button" id="drawRedo">Redo</button>
       <button type="button" id="drawClear">Clear board</button>
       <button type="button" id="drawDownload">Download SVG</button>
       <button type="button" id="drawPrint">Print/Download</button>
-    </div>`;
+    </div>
+    <label class="control"><span>Palette</span>
+      <select id="drawPaletteSelect">${paletteOptions}</select>
+    </label>
+    <div class="buttons" id="drawColors" role="group" aria-label="Drawing colors"></div>`;
   const symmetrySelect = panel.querySelector('#drawSymmetry');
   symmetrySelect.addEventListener('change', () => {
     finishStroke();
@@ -39,18 +45,23 @@ export function createDrawingControls({ svgLayer, getBoard, state, onChange, dow
     undoButton.disabled = !getBoard()?.canUndo;
     redoButton.disabled = !getBoard()?.canRedo;
   }
-  const palette = [...new Map(['purple', 'blue'].flatMap(buildFixedPalette).map(entry => [entry.hex, entry])).values()];
-  for (const entry of palette) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = entry.hex === '#ffffff' ? 'Erase (white)' : entry.name;
-    button.style.borderLeft = `18px solid ${entry.hex}`;
-    button.setAttribute('aria-pressed', String(entry.hex === color));
-    button.addEventListener('click', () => {
-      color = entry.hex;
-      panel.querySelectorAll('#drawColors button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
-    });
-    panel.querySelector('#drawColors').appendChild(button);
+  const swatches = panel.querySelector('#drawColors');
+  function renderPalette(mode) {
+    const palette = buildFixedPalette(mode);
+    if (!palette.some(entry => entry.hex === color)) color = '#ffffff';
+    swatches.replaceChildren(...palette.map(entry => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-label', entry.hex === '#ffffff' ? 'Erase (white)' : entry.name);
+      button.style.setProperty('--swatch-color', entry.hex);
+      button.setAttribute('aria-pressed', String(entry.hex === color));
+      button.addEventListener('click', () => {
+        finishStroke();
+        color = entry.hex;
+        for (const swatch of swatches.children) swatch.setAttribute('aria-pressed', String(swatch === button));
+      });
+      return button;
+    }));
   }
   function paintTo(event) {
     const point = { x: event.clientX, y: event.clientY };
@@ -104,7 +115,8 @@ export function createDrawingControls({ svgLayer, getBoard, state, onChange, dow
   panel.querySelector('#drawDownload').addEventListener('click', downloadSvg);
   panel.querySelector('#drawPrint').addEventListener('click', print);
   state.subscribe((value, previous) => {
-    if (value.symmetry !== previous.symmetry || value.activeTab !== previous.activeTab) finishStroke();
+    if (value.symmetry !== previous.symmetry || value.activeTab !== previous.activeTab || value.palette !== previous.palette) finishStroke();
+    if (!swatches.childElementCount || value.palette !== previous.palette) renderPalette(value.palette);
     symmetrySelect.value = value.symmetry;
   });
   updateButtons();
