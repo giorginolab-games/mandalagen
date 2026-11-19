@@ -244,8 +244,7 @@ async function init() {
       state, svgLayer, overlayCanvas, getBoard: () => board,
       onChange: () => updateColorCounts(board, colorCountsEl, state.value.palette),
       onModeChange: () => { cancelPendingApply(); imageControls.endDrag(); },
-      generate: applyRandomPatternFromControls, reset: resetSvg,
-      download: downloadSvg, print: () => window.print(),
+      generate: applyRandomPatternFromControls,
     });
     const response = await fetch(encodeURI(svgPath));
     if (!response.ok) {

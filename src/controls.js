@@ -3,13 +3,10 @@ import { resolveMotif } from './pattern-engine.js';
 import { getSymmetryConfig } from './symmetry-engine.js';
 import { createDrawingControls } from './drawing-engine.js';
 
-export function createControls({ state, svgLayer, overlayCanvas, getBoard, onChange, onModeChange, generate, reset, download, print }) {
+export function createControls({ state, svgLayer, overlayCanvas, getBoard, onChange, onModeChange, generate }) {
   const controls = document.querySelector('.controls');
   const paletteSelect = document.getElementById('paletteSelect');
-  const imagePanel = document.createElement('div');
-  imagePanel.id = 'imageTabPanel';
-  imagePanel.className = 'tab-panel';
-  while (controls.firstChild) imagePanel.appendChild(controls.firstChild);
+  const imagePanel = document.getElementById('imageTabPanel');
   const randomPanel = document.createElement('div');
   randomPanel.id = 'randomTabPanel';
   randomPanel.className = 'tab-panel';
@@ -51,13 +48,10 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
     <div class="buttons">
       <button id="generatePatternBtn" type="button">Generate</button>
       <button id="randomPatternBtn" type="button">Randomize</button>
-      <button id="resetRandomBtn" type="button">Reset SVG</button>
-      <button id="downloadRandomBtn" type="button">Download SVG</button>
-      <button id="printRandomBtn" type="button">Print/Download</button>
     </div>
     </fieldset>
   `;
-  const drawing = createDrawingControls({ svgLayer, getBoard, state, onChange, downloadSvg: download, print, paletteOptions: paletteSelect.innerHTML });
+  const drawing = createDrawingControls({ svgLayer, getBoard, state, onChange, paletteOptions: paletteSelect.innerHTML });
   const panels = { random: randomPanel, draw: drawing.panel, image: imagePanel };
   const tabs = document.createElement('div');
   tabs.id = 'controlTabs';
@@ -116,8 +110,5 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
     state.set({ seed: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}` });
     generate();
   });
-  document.getElementById('resetRandomBtn').addEventListener('click', reset);
-  document.getElementById('downloadRandomBtn').addEventListener('click', download);
-  document.getElementById('printRandomBtn').addEventListener('click', print);
   return drawing;
 }

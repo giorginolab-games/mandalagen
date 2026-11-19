@@ -247,10 +247,13 @@ button:hover {
 .tab-panel:not([hidden]) { display: grid; gap: 16px; }
 #drawTabPanel:not([hidden]) { gap: 10px; }
 #drawTabPanel select { min-width: 0; width: 100%; }
-#drawTabPanel summary { cursor: pointer; font-size: 0.875rem; }
-#drawTabPanel details p { margin: 8px 0 0; }
+.draw-help { font-size: 0.875rem; line-height: 1.35; }
+.draw-help h2 { margin: 0; font-size: inherit; }
+.draw-help p { margin: 6px 0 0; }
 .draw-actions, #drawColors { gap: 8px; }
 .draw-actions button { padding: 8px 12px; }
+#exportActions { gap: 8px; }
+#exportActions button { padding: 8px 12px; }
 [hidden] { display: none !important; }
 #overlayCanvas, #svgLayer.drawing { touch-action: none; }
 #svgLayer.drawing { cursor: crosshair; user-select: none; }

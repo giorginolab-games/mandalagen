@@ -3,7 +3,7 @@ import { getSymmetryConfig } from './symmetry-engine.js';
 import { buildFixedPalette } from './color-engine.js';
 
 // One history entry per gesture, regardless of how many hexagons it crosses.
-export function createDrawingControls({ svgLayer, getBoard, state, onChange, downloadSvg, print, paletteOptions }) {
+export function createDrawingControls({ svgLayer, getBoard, state, onChange, paletteOptions }) {
   const panel = document.createElement('div');
   panel.className = 'tab-panel';
   panel.id = 'drawTabPanel';
@@ -12,18 +12,16 @@ export function createDrawingControls({ svgLayer, getBoard, state, onChange, dow
     <label class="control"><span>Symmetry</span>
       <select id="drawSymmetry">${RANDOM_SYMMETRIES.map(s => `<option value="${s.value}" ${s.value === RANDOM_SYMMETRIES[0].value ? 'selected' : ''}>${s.label}</option>`).join('')}</select>
     </label>
-    <details>
-      <summary>Drawing and symmetry help</summary>
+    <section class="draw-help" aria-labelledby="drawHelpHeading">
+      <h2 id="drawHelpHeading">Drawing and symmetry help</h2>
       <p>Pick a swatch and click or drag to paint. The white swatch erases.</p>
       <p>Each stroke repeats around the board center. Axes are measured clockwise from horizontal. Cₙ gives n rotations and Dₙ adds n reflections.</p>
       <p>${SYMMETRY_GUIDE}</p>
-    </details>
+    </section>
     <div class="buttons draw-actions">
       <button type="button" id="drawUndo">Undo</button>
       <button type="button" id="drawRedo">Redo</button>
       <button type="button" id="drawClear">Clear board</button>
-      <button type="button" id="drawDownload">Download SVG</button>
-      <button type="button" id="drawPrint">Print/Download</button>
     </div>
     <label class="control"><span>Palette</span>
       <select id="drawPaletteSelect">${paletteOptions}</select>
@@ -112,8 +110,6 @@ export function createDrawingControls({ svgLayer, getBoard, state, onChange, dow
       onChange();
     });
   }
-  panel.querySelector('#drawDownload').addEventListener('click', downloadSvg);
-  panel.querySelector('#drawPrint').addEventListener('click', print);
   state.subscribe((value, previous) => {
     if (value.symmetry !== previous.symmetry || value.activeTab !== previous.activeTab || value.palette !== previous.palette) finishStroke();
     if (!swatches.childElementCount || value.palette !== previous.palette) renderPalette(value.palette);

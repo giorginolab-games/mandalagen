@@ -25,6 +25,8 @@ await import('../src/app.js');
 await new Promise(resolve => setTimeout(resolve, 10));
 const byId = id => document.getElementById(id);
 assert.deepEqual([...byId('controlTabs').children].map(button => button.textContent), ['Random', 'Draw', 'Image']);
+assert.equal(byId('controlTabs').previousElementSibling, byId('exportActions'));
+assert.equal(byId('resetRandomBtn'), null);
 assert.equal(byId('status').textContent, 'SVG loaded. Upload an image to begin.');
 assert.equal(byId('drawSymmetry').value, 'c6-mirror-vertex');
 function change(id, value) {

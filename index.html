@@ -16,57 +16,61 @@
 
     <section class="panel">
       <div class="controls">
-        <label class="control">
-          <span>Image file</span>
-          <input type="file" id="imageInput" accept="image/*" />
-        </label>
-
-        <label class="control">
-          <span>Overlay opacity</span>
-          <input type="range" id="opacityInput" min="0" max="1" step="0.05" value="0.65" />
-        </label>
-
-        <label class="control">
-          <span>Palette</span>
-          <select id="paletteSelect">
-            <option value="purple">Royal purple (PAWROY)</option>
-            <option value="blue">Blue (BAWROY)</option>
-          </select>
-        </label>
-
-        <label class="control">
-          <span>Dithering</span>
-          <select id="ditherSelect">
-            <option value="none">None</option>
-            <option value="ordered">Ordered</option>
-            <option value="floyd-steinberg">Floyd-Steinberg</option>
-          </select>
-        </label>
-
-        <label class="control">
-          <span>Image scale <strong class="value" id="scaleValue">100%</strong></span>
-          <input type="range" id="scaleInput" min="0.4" max="2" step="0.05" value="1" />
-        </label>
-
-        <label class="control">
-          <span>Translate X <strong class="value" id="translateXValue">0</strong></span>
-          <input type="range" id="translateXInput" min="-200" max="200" step="5" value="0" />
-        </label>
-
-        <label class="control">
-          <span>Translate Y <strong class="value" id="translateYValue">0</strong></span>
-          <input type="range" id="translateYInput" min="-200" max="200" step="5" value="0" />
-        </label>
-
-        <div class="buttons">
-          <button id="applyBtn" type="button">Apply Colors</button>
+        <div class="buttons" id="exportActions" role="group" aria-label="Export design">
           <button id="downloadBtn" type="button">Download SVG</button>
-          <button id="printBtn" type="button">Print/Download</button>
-          <button id="resetBtn" type="button">Reset SVG</button>
+          <button id="printBtn" type="button">Print / Save PDF</button>
+        </div>
+        <div class="tab-panel" id="imageTabPanel">
+          <label class="control">
+            <span>Image file</span>
+            <input type="file" id="imageInput" accept="image/*" />
+          </label>
+
+          <label class="control">
+            <span>Overlay opacity</span>
+            <input type="range" id="opacityInput" min="0" max="1" step="0.05" value="0.65" />
+          </label>
+
+          <label class="control">
+            <span>Palette</span>
+            <select id="paletteSelect">
+              <option value="purple">Royal purple (PAWROY)</option>
+              <option value="blue">Blue (BAWROY)</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>Dithering</span>
+            <select id="ditherSelect">
+              <option value="none">None</option>
+              <option value="ordered">Ordered</option>
+              <option value="floyd-steinberg">Floyd-Steinberg</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>Image scale <strong class="value" id="scaleValue">100%</strong></span>
+            <input type="range" id="scaleInput" min="0.4" max="2" step="0.05" value="1" />
+          </label>
+
+          <label class="control">
+            <span>Translate X <strong class="value" id="translateXValue">0</strong></span>
+            <input type="range" id="translateXInput" min="-200" max="200" step="5" value="0" />
+          </label>
+
+          <label class="control">
+            <span>Translate Y <strong class="value" id="translateYValue">0</strong></span>
+            <input type="range" id="translateYInput" min="-200" max="200" step="5" value="0" />
+          </label>
+
+          <div class="buttons">
+            <button id="applyBtn" type="button">Apply Colors</button>
+            <button id="resetBtn" type="button">Reset SVG</button>
+          </div>
         </div>
       </div>
 
-        <div class="stage">
+      <div class="stage">
         <div class="canvas-wrap" id="canvasWrap">
           <canvas id="overlayCanvas"></canvas>
           <div id="svgLayer"></div>

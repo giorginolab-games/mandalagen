@@ -2,6 +2,18 @@
 
 Mandala Color Generator uses semantic versioning, starting at 0.1.0.
 
+## [0.2.2]
+
+### Changed
+
+- Reordered the mode tabs to Random, Draw, and Image.
+- Moved Download SVG and Print / Save PDF above the tabs so they are available in every mode.
+- Put the Draw palette selector and color swatches below the action buttons and kept drawing and symmetry help visible.
+
+### Removed
+
+- Removed Reset SVG from Random mode.
+
 ## [0.2.1]
 
 ### Changed
