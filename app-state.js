@@ -2,7 +2,7 @@
 export function createAppState() {
   let value = Object.freeze({
     activeTab: 'image', palette: 'purple', symmetry: 'c6-mirror-vertex',
-    seed: 'mandala-random-001', motif: 'auto', contrast: 6, whiteness: 4,
+    seed: 'mandala-random-001', motif: 'auto', contrast: 6, tileSize: 6, whiteness: 4,
   });
   const listeners = new Set();
   return {

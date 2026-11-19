@@ -1,4 +1,4 @@
-import { RANDOM_SYMMETRIES } from './constants.js';
+import { RANDOM_SYMMETRIES, SYMMETRY_GUIDE } from './constants.js';
 import { getSymmetryConfig } from './symmetry-engine.js';
 import { buildFixedPalette } from './color-engine.js';
 
@@ -13,7 +13,8 @@ export function createDrawingControls({ svgLayer, getBoard, state, onChange, dow
     <label class="control"><span>Symmetry</span>
       <select id="drawSymmetry">${RANDOM_SYMMETRIES.map(s => `<option value="${s.value}" ${s.value === RANDOM_SYMMETRIES[0].value ? 'selected' : ''}>${s.label}</option>`).join('')}</select>
     </label>
-    <p>The symmetry setting is shared with Random. Symmetry repeats each new stroke about the board center. Axes are measured clockwise from horizontal. Cₙ gives n rotations; Dₙ adds n reflections. Existing colors stay unchanged.</p>
+    <p>${SYMMETRY_GUIDE}</p>
+    <p>Symmetry repeats each new stroke about the board center. Axes are measured clockwise from horizontal. Cₙ gives n rotations; Dₙ adds n reflections. Existing colors stay unchanged.</p>
     <div class="buttons" id="drawColors" aria-label="Drawing colors"></div>
     <div class="buttons">
       <button type="button" id="drawUndo">Undo</button>

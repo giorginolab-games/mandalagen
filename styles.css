@@ -84,6 +84,10 @@ h1 {
   gap: 16px;
 }
 
+.controls p {
+  font-weight: 400;
+}
+
 .control {
   display: grid;
   gap: 8px;

@@ -5,6 +5,10 @@ function bandRegion(coordinate) {
   return { band: Math.floor(coordinate), edge: Math.min(fraction, 1 - fraction), blank: false };
 }
 
+function pinwheel({ radius, theta, shapeVariation, density }) {
+  return bandRegion(3 * theta / (2 * Math.PI) * 6 + radius * (1 + shapeVariation) * density);
+}
+
 function rings({ radius, density }) {
   return bandRegion(radius * density);
 }
@@ -57,7 +61,7 @@ function mosaic({ radius, theta, repeats, density }) {
 }
 
 // Each motif returns a color-band index, distance to a boundary, and blank-space flag.
-export const MOTIF_REGIONS = { rings, flower, star, petals, ribbons, diamonds, mosaic };
+export const MOTIF_REGIONS = { rings, flower, star, petals, ribbons, diamonds, mosaic, pinwheel };
 
 export function motifRegion(kind, metrics, parameters) {
   return (MOTIF_REGIONS[kind] || mosaic)({

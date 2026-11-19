@@ -1,4 +1,6 @@
-import { RANDOM_MOTIFS, RANDOM_MOTIF_DESCRIPTIONS, RANDOM_SYMMETRIES } from './constants.js';
+import { RANDOM_MOTIFS, RANDOM_MOTIF_DESCRIPTIONS, MOTIF_SYMMETRIES, LOCAL_TILINGS } from './constants.js';
+import { resolveMotif } from './pattern-engine.js';
+import { getSymmetryConfig } from './symmetry-engine.js';
 import { createDrawingControls } from './drawing-engine.js';
 
 export function createControls({ state, svgLayer, overlayCanvas, getBoard, onChange, onModeChange, generate, reset, download, print }) {
@@ -25,12 +27,7 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
       </select>
       <p class="status" id="randomMotifDescription"></p>
     </label>
-    <label>
-      <span>Symmetry</span>
-      <select id="randomSymmetrySelect">
-        ${RANDOM_SYMMETRIES.map((symmetry) => `<option value="${symmetry.value}">${symmetry.label}</option>`).join("")}
-      </select>
-    </label>
+    <p class="status" id="randomPointGroup"></p>
     <label>
       <span>Palette</span>
       <select id="randomPaletteSelect">
@@ -42,6 +39,10 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
     <label>
       <span>Contrast <strong class="value" id="randomContrastValue">6</strong></span>
       <input type="range" id="randomContrastInput" min="1" max="10" step="1" value="6" />
+    </label>
+    <label>
+      <span>Tile size <strong class="value" id="tileSizeValue">6</strong></span>
+      <input type="range" id="tileSizeInput" min="1" max="24" step="1" value="6" />
     </label>
     <label>
       <span>White accents <strong class="value" id="randomWhitenessValue">4</strong></span>
@@ -74,9 +75,9 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
   const bindings = [
     ['randomSeedInput', 'seed', 'input', String],
     ['randomMotifSelect', 'motif', 'change', String],
-    ['randomSymmetrySelect', 'symmetry', 'change', String],
     ['randomPaletteSelect', 'palette', 'change', String],
     ['paletteSelect', 'palette', 'change', String],
+    ['tileSizeInput', 'tileSize', 'input', Number],
     ['randomContrastInput', 'contrast', 'input', Number],
     ['randomWhitenessInput', 'whiteness', 'input', Number],
   ].map(([id, key, event, convert]) => ({ element: document.getElementById(id), key, event, convert }));
@@ -99,7 +100,15 @@ export function createControls({ state, svgLayer, overlayCanvas, getBoard, onCha
     svgLayer.classList.toggle('drawing', value.activeTab === 'draw');
     document.getElementById('randomContrastValue').textContent = value.contrast;
     document.getElementById('randomWhitenessValue').textContent = value.whiteness;
-    document.getElementById('randomMotifDescription').textContent = RANDOM_MOTIF_DESCRIPTIONS[value.motif] || '';
+    const family = resolveMotif(value.motif, value.seed);
+    const local = LOCAL_TILINGS[family];
+    document.getElementById('tileSizeValue').textContent = value.tileSize;
+    document.getElementById('tileSizeInput').closest('label').hidden = !local;
+    document.getElementById('randomContrastInput').closest('label').hidden = Boolean(local);
+    document.getElementById('randomWhitenessInput').closest('label').hidden = Boolean(local);
+    document.getElementById('randomPointGroup').textContent = local ||
+      `${family} · ${getSymmetryConfig(MOTIF_SYMMETRIES[family]).label}`;
+    document.getElementById('randomMotifDescription').textContent = RANDOM_MOTIF_DESCRIPTIONS[family] || '';
   });
   document.getElementById('generatePatternBtn').addEventListener('click', generate);
   document.getElementById('randomPatternBtn').addEventListener('click', () => {

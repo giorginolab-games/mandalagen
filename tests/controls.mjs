@@ -30,10 +30,11 @@ function change(id, value) {
   byId(id).value = value;
   byId(id).dispatchEvent(new window.Event('change', { bubbles: true }));
 }
-change('randomSymmetrySelect', 'c3');
-assert.equal(byId('drawSymmetry').value, 'c3');
+change('randomMotifSelect', 'pinwheel');
+assert.match(byId('randomPointGroup').textContent, /C₃/);
+assert.equal(byId('drawSymmetry').value, 'c6-mirror-vertex');
 change('drawSymmetry', 'c6');
-assert.equal(byId('randomSymmetrySelect').value, 'c6');
+assert.match(byId('randomPointGroup').textContent, /C₃/);
 change('randomPaletteSelect', 'blue');
 assert.equal(byId('paletteSelect').value, 'blue');
 change('paletteSelect', 'purple');
