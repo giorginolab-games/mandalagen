@@ -32,15 +32,15 @@ This software maps raster images to the hexagonal grid and supports procedural p
 
 The app uses browser ES modules without a build step or runtime framework.
 
-- `app.js`: application startup, image loading, and coordinating design replacement and export.
-- `app-state.js`: shared mode, symmetry, palette, and pattern settings. Controls subscribe to state rather than updating each other.
-- `board-model.js`: the editable cell list, measured geometry, cached symmetry groups, color counts, and stroke undo/redo. A new SVG gets a new model and history.
-- `svg-engine.js`: template parsing and hexagon identification; decorative artwork is excluded here.
-- `symmetry-engine.js`: pure symmetry calculations on measured cell centers.
-- `controls.js`, `drawing-engine.js`, `image-controls.js`: control rendering and DOM/pointer events.
-- `pattern-engine.js`: seeded pattern generation. `motifs.js` holds the independent geometric families and named variation parameters.
-- `image-engine.js`, `color-engine.js`: image sampling, dithering, and palette matching.
-- `ui-engine.js`: status and color-count presentation.
+- `src/app.js`: application startup, image loading, and coordinating design replacement and export.
+- `src/app-state.js`: shared mode, symmetry, palette, and pattern settings. Controls subscribe to state rather than updating each other.
+- `src/board-model.js`: the editable cell list, measured geometry, cached symmetry groups, color counts, and stroke undo/redo. A new SVG gets a new model and history.
+- `src/svg-engine.js`: template parsing and hexagon identification; decorative artwork is excluded here.
+- `src/symmetry-engine.js`: pure symmetry calculations on measured cell centers.
+- `src/controls.js`, `src/drawing-engine.js`, `src/image-controls.js`: control rendering and DOM/pointer events.
+- `src/pattern-engine.js`: seeded pattern generation. `src/motifs.js` holds the independent geometric families and named variation parameters.
+- `src/image-engine.js`, `src/color-engine.js`: image sampling, dithering, and palette matching.
+- `src/ui-engine.js`: status and color-count presentation.
 
 Geometry is measured in SVG viewBox units when the board is created. Resizing or scrolling does not invalidate the cached groups. Drawing, generation, image mapping, and counts all use the same board model.
 

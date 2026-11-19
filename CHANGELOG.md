@@ -2,6 +2,12 @@
 
 Mandala Color Generator uses semantic versioning, starting at 0.1.0.
 
+## [0.2.1]
+
+### Changed
+
+- Moved browser JavaScript modules into `src/`.
+
 ## [0.2.0]
 
 ### Added

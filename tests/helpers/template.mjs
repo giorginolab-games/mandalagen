@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { getHexVertices } from '../../svg-engine.js';
+import { getHexVertices } from '../../src/svg-engine.js';
 // Read the shipped template, including its decoration, instead of an ideal grid.
 const svg = readFileSync(new URL('../../data/onepage_model.svg', import.meta.url), 'utf8');
 export const paths = [...svg.matchAll(/<path\b[\s\S]*?\/>/g)].map(([tag]) => {

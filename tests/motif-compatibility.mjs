@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { resolveRandomFill } from '../pattern-engine.js';
-import { createMotifParameters } from '../motifs.js';
-import { buildFixedPalette } from '../color-engine.js';
+import { resolveRandomFill } from '../src/pattern-engine.js';
+import { createMotifParameters } from '../src/motifs.js';
+import { buildFixedPalette } from '../src/color-engine.js';
 const baseline = JSON.parse(readFileSync(new URL('./fixtures/motif-colors.json', import.meta.url), 'utf8'));
 const palette = buildFixedPalette('purple').filter(c => c.hex !== '#ffffff');
 for (const [key, expected] of Object.entries(baseline)) {

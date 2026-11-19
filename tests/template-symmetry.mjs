@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { paths, measureNodes } from './helpers/template.mjs';
-import { getColorableHexPaths } from '../svg-engine.js';
-import { buildSymmetryOrbits } from '../symmetry-engine.js';
-import { RANDOM_SYMMETRIES } from '../constants.js';
+import { getColorableHexPaths } from '../src/svg-engine.js';
+import { buildSymmetryOrbits } from '../src/symmetry-engine.js';
+import { RANDOM_SYMMETRIES } from '../src/constants.js';
 
 const cells = getColorableHexPaths({ querySelectorAll: () => paths });
 assert.equal(cells.length, 1045);

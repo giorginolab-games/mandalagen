@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 import { paths } from './helpers/template.mjs';
-import { getColorableHexPaths, getFillValue } from '../svg-engine.js';
+import { getColorableHexPaths, getFillValue } from '../src/svg-engine.js';
 
 const dom = new JSDOM(readFileSync(new URL('../index.html', import.meta.url), 'utf8'), { url: 'http://localhost/' });
 const { window } = dom;
@@ -21,7 +21,7 @@ const captures = new Set();
 window.Element.prototype.setPointerCapture = id => captures.add(id);
 window.Element.prototype.hasPointerCapture = id => captures.has(id);
 window.Element.prototype.releasePointerCapture = id => captures.delete(id);
-await import('../app.js');
+await import('../src/app.js');
 await new Promise(resolve => setTimeout(resolve, 10));
 const byId = id => document.getElementById(id);
 assert.equal(byId('status').textContent, 'SVG loaded. Upload an image to begin.');

@@ -1,9 +1,9 @@
-import { motifRegion, createMotifParameters } from '../motifs.js';
+import { motifRegion, createMotifParameters } from '../src/motifs.js';
 import assert from 'node:assert/strict';
-import { RANDOM_MOTIFS, MOTIF_SYMMETRIES, LOCAL_TILINGS, RANDOM_SYMMETRIES } from '../constants.js';
-import { buildFixedPalette } from '../color-engine.js';
-import { getMetricsForNode, resolveRandomFill } from '../pattern-engine.js';
-import { buildSymmetryOrbits } from '../symmetry-engine.js';
+import { RANDOM_MOTIFS, MOTIF_SYMMETRIES, LOCAL_TILINGS, RANDOM_SYMMETRIES } from '../src/constants.js';
+import { buildFixedPalette } from '../src/color-engine.js';
+import { getMetricsForNode, resolveRandomFill } from '../src/pattern-engine.js';
+import { buildSymmetryOrbits } from '../src/symmetry-engine.js';
 
 const palette = buildFixedPalette('purple').filter(c => c.hex !== '#ffffff');
 const allowed = new Set(['#ffffff', ...palette.map(c => c.hex)]);
@@ -47,10 +47,10 @@ for (const symmetry of RANDOM_SYMMETRIES) {
 }
 console.log('PASS: distinct deterministic motif families, palette bounds, white-accent control, and all symmetry orbits');
 
-import { generatePattern } from '../pattern-engine.js';
+import { generatePattern } from '../src/pattern-engine.js';
 import { paths as templatePaths, measureNodes } from './helpers/template.mjs';
-import { getColorableHexPaths } from '../svg-engine.js';
-import { getBoardGeometry } from '../symmetry-engine.js';
+import { getColorableHexPaths } from '../src/svg-engine.js';
+import { getBoardGeometry } from '../src/symmetry-engine.js';
 
 const nodes = measureNodes(getColorableHexPaths({ querySelectorAll: () => templatePaths }));
 for (const palette of ['purple', 'blue']) {

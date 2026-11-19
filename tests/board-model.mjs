@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import { createBoardFromNodes, createBoardModel } from '../board-model.js';
-import { getColorableHexPaths, getFillValue } from '../svg-engine.js';
-import { RANDOM_SYMMETRIES } from '../constants.js';
-import { generatePattern } from '../pattern-engine.js';
-import { createAppState } from '../app-state.js';
+import { createBoardFromNodes, createBoardModel } from '../src/board-model.js';
+import { getColorableHexPaths, getFillValue } from '../src/svg-engine.js';
+import { RANDOM_SYMMETRIES } from '../src/constants.js';
+import { generatePattern } from '../src/pattern-engine.js';
+import { createAppState } from '../src/app-state.js';
 import { paths, measureNodes } from './helpers/template.mjs';
 
 const cells = getColorableHexPaths({ querySelectorAll: () => paths });
